@@ -1,3 +1,40 @@
+SELECT ograd,ogrsoyad FROM ogrenci AS o, islem AS i WHERE o.ogrno = iogrno
+SELECT k.kitapdi, t.turadi FROM kitap AS k, tur AS t WHERE k.turno=k.turno AND t.turadi IN ('Fıkra', 'Hikaye')
+SELECT o.ogrno, o.ograd, o.ogrsoyad, k.kitapadi, o.sinif FROM ogrenci AS o, kitap AS k, islem AS i WHERE o.ogrno=i.ogrno AND i.kitapno=k.kitapno AND o.sinif IN ('10C', '10B') ORDER BY o.ograd, o.ogrsoyad
+SELECT o.ograd, o.ogrsoyad, i.atarih FROM ogrenci AS o INNER JOIN islem AS i ON o.ogrno = i.ogrno ORDER BY i.atarih DESC
+SELECT k.kitapadi, t.turadi FROM kitap AS k INNER JOIN tur AS t ON k.turno = t.turno WHERE t.turadi IN ('Fıkra', 'Hikaye')
+SELECT o.ogrno, o.ograd, o.ogrsoyad, k.kitapadi, o.sinif FROM ogrenci AS o INNER JOIN kitap AS k ON i.kitapno=k.kitapno WHERE o.sinif IN ('10C', '10B') ORDER BY o.ograd, o.ogrsoyad
+SELECT o.ograd, o.ogrsoyad, i.atarih  FROM ogrenci AS o LEFT JOIN islem AS i ON o.ogrno=i.ogrno
+SELECT * FROM ogrenci WHERE ogrno NOT IN(SELECT ogrno FROM islem)
+SELECT k.kitapno, k.kitapadi COUNT(i.kitapno) FROM kitap AS k INNER JOIN islem AS i ON i.kitapno=k.kitapno GROUP BY k.kitapno, k.kitapadi ORDER BY k.kitapno ASC
+SELECT k.kitapno, k.kitapdi COUNT(i.kitapno) FROM kitap AS k LEFT JOIN islem AS i ON i.kitapno=k.kitapno GROUP BY k.kitapno, k.kitapadi ORDER BY k.kitapno ASC
+SELECT o.ograd, o.ogrsoyad, k.kitapadi FROM ogrenci AS o INNER JOIN islem AS i ON o.ogrno=i.ogrno INNER JOIN kitap AS k ON i.kitapno=k.kitapno ORDER BY o.ograd, o.ogrsoyad
+SELECT o.ogrno, o.ograd, o.ogrsoyad, k.kitapdi, y.yazarad, y.yazarsoyad, t.turadi, i.atarih FROM ogrenci AS o LEFT JOIN islem AS i ON o.ogrno=i.ogrno LEFT JOIN kitap AS k ON i.kitapno=k.kitapno LEFT JOIN yazar AS y ON k.yazarno=y.yazarno LEFT JOIN tur AS t ON k.turno=t.turno ORDER BY k.kitapadi
+SELECT o.ograd, o.ogrsoyad COUNT(i.ogrno) AS kitap_sayisi FROM ogrenci AS o INNER JOIN islem AS i WHERE o.sinif=('10A', '10B') ON o.ogrno=i.ogrno GROUP BY  o.ograd, o.ogrsoyad ORDER BY kitap_sayisi DESC
+SELECT avg(sayfasayisi) FROM kitap
+SELECT * FROM kitap WHERE sayfasayisi > (SELECT avg(sayfasayisi) FROM kitap)
+SELECT COUNT(*) FROM ogrenci
+SELECT COUNT(ogrno) AS 'toplam sayi' FROM ogrenci
+SELECT COUNT(distinct ograd) AS 'toplam sayi' FROM ogrenci
+SELECT MAX(sayfasayisi) FROM kitap
+SELECT k.kitapadi, k.sayfasayisi FROM kitap AS k WHERE k.sayfasayisi=(SELECT MAX(sayfasayisi) FROM kitap)
+SELECT MIN(sayfasayisi) FROM kitap
+SELECT k.kitapadi, k.sayfasayisi FROM kitap AS k WHERE k.sayfasayisi=(SELECT MIN(sayfasayisi) FROM kitap)
+SELECT MAX K.sayfasayisi FROM kitap AS k INNER JOIN tur AS t ON k.turno=t.turno WHERE t.turadi='Dram'
+SELECT SUM(k.sayfasayisi) FROM kitap AS k INNER JOIN islem AS i ON k.kitapno=i.kitapno WHERE i.ogrno=15
+SELECT ograd, COUNT(ogrno) AS toplam FROM ogrenci GROUP BY ograd ORDER BY toplam DESC
+SELECT sinif, COUNT(ogrno) FROM ogrenci WHERE sinif IS NOT NULL GROUP BY sinif
+SELECT sinif, cinsiyet, COUNT(ogrno) AS 'ogrenci sayisi' FROM ogrenci WHERE sinif is not null AND cinsiyet is not null GROUP BY sinif, cinsiyet
+SELECT o.ograd, o.ogrsoyad, suö(k.sayfasayisi) AS 'okunan sayfa' ogrenci AS o INNER JOIN islem AS i ON o.ogrno=i.ogrno INNER JOIN kitap as k ON i.kitapno=k.kitapno GROUP BY o.ograd, o.ogrsoyad ORDER BY sum(k.sayfasayisi) DESC
+SELECT o.ograd, o.ogrsoyad, count(i.islemno) as 'okudugu kitap sayisi' FROM ogrenci as o INNER JOIN islem as i ON o.ogrno=i.ogrno GROUP BY o.ograd, o.ogrsoyad ORDER BY 'okudugu kitap sayisi' DESC
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
 -- phpMyAdmin SQL Dump
 -- version 4.9.11
 -- https://www.phpmyadmin.net/
